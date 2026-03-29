@@ -1330,6 +1330,7 @@ function spawnHeartPhotosCentered() {
     setTimeout(() => {
         if (heartContainer) {
             heartContainer.classList.add('pulsing');
+            hideStars(); // Piche wale white stars ko hide karne ke liye
             startBackgroundParticles();
         }
     }, totalStaggerTime + orbitAnimationTime + delayBeforeForming + heartFormationAnimationTime);
@@ -1341,28 +1342,30 @@ function startBackgroundParticles() {
     const colors = ['#ff69b4', '#ff1493', '#ffd700', '#ffffff', '#ffb6c1'];
     
     bgParticlesInterval = setInterval(() => {
-        const particle = document.createElement('div');
-        particle.className = 'bg-floating-particle';
-        
-        const size = Math.random() * 6 + 2; // 2px to 8px
-        particle.style.width = size + 'px';
-        particle.style.height = size + 'px';
-        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.boxShadow = `0 0 ${size * 2}px ${particle.style.backgroundColor}`;
-        
-        particle.style.left = Math.random() * 100 + 'vw';
-        
-        const duration = Math.random() * 4 + 4; // 4s to 8s
-        particle.style.setProperty('--duration', duration + 's');
-        particle.style.setProperty('--max-opacity', Math.random() * 0.5 + 0.3); // Soft opacity
-        
-        document.body.appendChild(particle);
-        
-        setTimeout(() => {
-            particle.remove();
-        }, duration * 1000);
-        
-    }, 300); // Spawn a new particle every 300ms
+        // Ek baar mein 3 particles spawn honge aur interval fast kar diya hai
+        for (let i = 0; i < 3; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'bg-floating-particle';
+            
+            const size = Math.random() * 6 + 2; // 2px to 8px
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.boxShadow = `0 0 ${size * 2}px ${particle.style.backgroundColor}`;
+            
+            particle.style.left = Math.random() * 100 + 'vw';
+            
+            const duration = Math.random() * 4 + 4; // 4s to 8s
+            particle.style.setProperty('--duration', duration + 's');
+            particle.style.setProperty('--max-opacity', Math.random() * 0.5 + 0.3); // Soft opacity
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+    }, 100); // Pehle 300ms tha, ab 100ms kar diya taaki particles jaldi-jaldi aayein
 }
 
 // 7. Optimize startHeartEffect
